@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "anthropic-bmi-tool-demo",
+		"name": "Anthropic BMI Tool Use Demo",
+		"description": "Ukázka testování tool use (function calling) s Anthropic Claude API.\n\nObsahuje dva requesty:\n1. Request s dotazem a definicí nástroje\n2. Request s výsledkem nástroje\n\nNezapomeň:\n- Nastavit Environment s proměnnou ANTHROPIC_API_KEY\n- Po Request 1 zkopírovat tool_use ID do Request 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Dotaz s definicí nástroje",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{ANTHROPIC_API_KEY}}",
+						"description": "API klíč z environment"
+					},
+					{
+						"key": "anthropic-version",
+						"value": "2023-06-01",
+						"description": "Verze API protokolu"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"description": "Formát dat"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 1024,\n  \"tools\": [\n    {\n      \"name\": \"calculate_bmi\",\n      \"description\": \"Vypočítá BMI (Body Mass Index) na základě váhy a výšky. Použij tento nástroj, když uživatel chce znát své BMI.\",\n      \"input_schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"weight_kg\": {\n            \"type\": \"number\",\n            \"description\": \"Váha v kilogramech\"\n          },\n          \"height_cm\": {\n            \"type\": \"number\",\n            \"description\": \"Výška v centimetrech\"\n          }\n        },\n        \"required\": [\"weight_kg\", \"height_cm\"]\n      }\n    }\n  ],\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Vážím 75 kg a měřím 180 cm. Jaké je moje BMI?\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.anthropic.com/v1/messages",
+					"protocol": "https",
+					"host": [
+						"api",
+						"anthropic",
+						"com"
+					],
+					"path": [
+						"v1",
+						"messages"
+					]
+				},
+				"description": "První volání API - pošle uživatelův dotaz spolu s definicí dostupného nástroje (BMI kalkulačka).\n\nOčekávaná odpověď:\n- stop_reason: \"tool_use\"\n- content obsahuje blok s type: \"tool_use\"\n- Zapamatuj si ID z tohoto bloku pro Request 2!"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Vrácení výsledku nástroje",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{ANTHROPIC_API_KEY}}",
+						"description": "API klíč z environment"
+					},
+					{
+						"key": "anthropic-version",
+						"value": "2023-06-01",
+						"description": "Verze API protokolu"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"description": "Formát dat"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 1024,\n  \"tools\": [\n    {\n      \"name\": \"calculate_bmi\",\n      \"description\": \"Vypočítá BMI (Body Mass Index) na základě váhy a výšky.\",\n      \"input_schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"weight_kg\": {\n            \"type\": \"number\",\n            \"description\": \"Váha v kilogramech\"\n          },\n          \"height_cm\": {\n            \"type\": \"number\",\n            \"description\": \"Výška v centimetrech\"\n          }\n        },\n        \"required\": [\"weight_kg\", \"height_cm\"]\n      }\n    }\n  ],\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Vážím 75 kg a měřím 180 cm. Jaké je moje BMI?\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": [\n        {\n          \"type\": \"tool_use\",\n          \"id\": \"NAHRAD_TIMTO_ID_Z_RESPONSE_1\",\n          \"name\": \"calculate_bmi\",\n          \"input\": {\n            \"weight_kg\": 75,\n            \"height_cm\": 180\n          }\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"tool_result\",\n          \"tool_use_id\": \"NAHRAD_TIMTO_ID_Z_RESPONSE_1\",\n          \"content\": \"{\\\"bmi\\\": 23.1, \\\"category\\\": \\\"normální váha\\\", \\\"weight_kg\\\": 75, \\\"height_cm\\\": 180}\"\n        }\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.anthropic.com/v1/messages",
+					"protocol": "https",
+					"host": [
+						"api",
+						"anthropic",
+						"com"
+					],
+					"path": [
+						"v1",
+						"messages"
+					]
+				},
+				"description": "Druhé volání API - pošle celou konverzaci včetně výsledku nástroje.\n\nPŘED ODESLÁNÍM:\n1. Zkopíruj ID z odpovědi na Request 1 (hodnota \"id\" v bloku \"tool_use\")\n2. Nahraď \"NAHRAD_TIMTO_ID_Z_RESPONSE_1\" na OBOU místech v body\n\nOčekávaná odpověď:\n- stop_reason: \"end_turn\"\n- content obsahuje textovou odpověď s interpretací BMI"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ANTHROPIC_API_KEY",
+			"value": "",
+			"type": "string",
+			"description": "Tvůj Anthropic API klíč (lepší je použít Environment)"
+		}
+	]
+}
