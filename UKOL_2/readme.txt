@@ -1,8 +1,11 @@
-Database URL v SQL Database komponentì je nastavena na sqlite:////app/data/faq.db, co odpovídá namapovanému volume v Dockeru.
-Jedná se o test DB s patnácti otázkami
+Database URL v SQL Database komponentÄ› je nastavena na sqlite:////app/data/faq.db, coÅ¾ odpovÃ­dÃ¡ namapovanÃ©mu volume v Dockeru. 
+JednÃ¡ se o test DB s patnÃ¡cti otÃ¡zkami
+Soubor je pÅ™iloÅ¾en.  
 
-Samotné spuštìní mùe obèas skonèit chybou „empty content", ale je to funkèní, staèí poloit dotaz. 
+SamotnÃ© prvnÃ­ spuÅ¡tÄ›nÃ­ mÅ¯Å¾e obÄas skonÄit chybou â€empty content", ale je to funkÄnÃ­, staÄÃ­ poloÅ¾it dotaz.
+ÃšdajnÄ› chyba  
 
-
+v adresÃ¡Å™i pÅ™iloÅ¾eny py skripty plnÃ­cÃ­ test databÃ¡zi otÃ­zkami a odpovÄ›Ämi + check vÃ½pisem. 
+  
 
 
