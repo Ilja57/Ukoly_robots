@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 600" font-family="'Segoe UI', Arial, sans-serif">
+  
+  <!-- Pozadí -->
+  <rect width="460" height="600" fill="white"/>
+  
+  <!-- Arrow marker definice -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+  
+  <!-- __start__ node -->
+  <rect x="155" y="30" width="150" height="36" rx="18" fill="#ffdfba" stroke="#e0c9a0" stroke-width="1.5"/>
+  <text x="230" y="53" text-anchor="middle" font-size="14" fill="#333">__start__</text>
+  
+  <!-- Hrana __start__ → agent -->
+  <line x1="230" y1="66" x2="230" y2="120" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+  
+  <!-- agent node -->
+  <rect x="130" y="120" width="200" height="44" rx="22" fill="#fad7de" stroke="#e0b8c0" stroke-width="1.5"/>
+  <text x="230" y="147" text-anchor="middle" font-size="14" fill="#333">agent</text>
+  
+  <!-- Hrana agent → should_continue (podmíněná, čárkovaná) -->
+  <line x1="230" y1="164" x2="230" y2="230" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-dashed)"/>
+  
+  <!-- should_continue label -->
+  <rect x="155" y="186" width="150" height="22" rx="4" fill="white" stroke="none"/>
+  <text x="230" y="201" text-anchor="middle" font-size="11" fill="#888" font-style="italic">should_continue</text>
+  
+  <!-- tools node -->
+  <rect x="130" y="230" width="200" height="44" rx="22" fill="#fad7de" stroke="#e0b8c0" stroke-width="1.5"/>
+  <text x="230" y="257" text-anchor="middle" font-size="14" fill="#333">tools</text>
+  
+  <!-- Hrana tools → agent (zpětná smyčka — doleva a nahoru) -->
+  <line x1="130" y1="252" x2="70" y2="252" stroke="#888" stroke-width="1.5"/>
+  <line x1="70" y1="252" x2="70" y2="142" stroke="#888" stroke-width="1.5"/>
+  <line x1="70" y1="142" x2="130" y2="142" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+  
+  <!-- Hrana agent → __end__ (čárkovaná, doprava a dolů) -->
+  <line x1="330" y1="142" x2="390" y2="142" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="390" y1="142" x2="390" y2="340" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="390" y1="340" x2="305" y2="340" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-dashed)"/>
+  
+  <!-- __end__ node -->
+  <rect x="155" y="322" width="150" height="36" rx="18" fill="#baffc9" stroke="#a0d9b0" stroke-width="1.5"/>
+  <text x="230" y="345" text-anchor="middle" font-size="14" fill="#333">__end__</text>
+  
+  <!-- Popis toolů pod diagramem -->
+  <rect x="80" y="400" width="300" height="170" rx="10" fill="#f8f8ff" stroke="#ddd" stroke-width="1"/>
+  <text x="230" y="425" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">Nástroje (tools)</text>
+  
+  <line x1="100" y1="435" x2="360" y2="435" stroke="#ddd" stroke-width="1"/>
+  
+  <rect x="110" y="450" width="12" height="12" rx="3" fill="#264653"/>
+  <text x="130" y="461" font-size="12" fill="#555">db_search — hledání v poznámkách</text>
+  
+  <rect x="110" y="475" width="12" height="12" rx="3" fill="#264653"/>
+  <text x="130" y="486" font-size="12" fill="#555">db_write — uložení poznámky</text>
+  
+  <rect x="110" y="500" width="12" height="12" rx="3" fill="#264653"/>
+  <text x="130" y="511" font-size="12" fill="#555">db_list — seznam poznámek</text>
+  
+  <rect x="110" y="525" width="12" height="12" rx="3" fill="#264653"/>
+  <text x="130" y="536" font-size="12" fill="#555">db_draft — čtení/zápis draftu</text>
+  
+  <rect x="110" y="550" width="12" height="12" rx="3" fill="#2a9d8f"/>
+  <text x="130" y="561" font-size="12" fill="#555">wiki_search — Wikipedia</text>
+  
+</svg>
